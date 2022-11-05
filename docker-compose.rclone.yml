@@ -1,0 +1,22 @@
+version: "2.1"
+services:
+  rclone:
+    container_name: rclone
+    image: rclone/rclone
+    environment:
+      - PUID=1001
+      - PGID=1001
+    volumes:
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+      - ./config:/config/rclone
+      - /root/media:/data:shared
+      - /root/downloads:/downloads
+    restart: always
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor=unconfined
+    command: "mount --vfs-cache-mode full --allow-non-empty --allow-other --dir-cache-time 72h --vfs-read-chunk-size 256M --umask 002 --vfs-read-chunk-size-limit off -v jellyfin: /data"
