@@ -1,0 +1,12 @@
+version: "2.1"
+services:
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin
+    volumes:
+      - ./config_jellyfin:/config
+      - ./cache_jellyfin:/cache
+      - /root/media:/media
+    restart: always
+    ports:
+      - 8096:8096
